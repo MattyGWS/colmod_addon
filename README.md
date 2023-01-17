@@ -1,2 +1,2 @@
 # colmod_addon
- A blender addon for creating lods
+ A blender addon for creating collisions
