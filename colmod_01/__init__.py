@@ -1,10 +1,9 @@
 import bpy
 from bpy.types import Scene
 from .mass_hull import MassHullModifierOperator
-#from .mass_hull import IndividualHullModifierOperator
-#from .mass_hull import BoxModifierOperator
+from .individual_hull import IndividualHullModifierOperator
+from .bounding_box import BoundingBoxModifierOperator
 from bpy.types import Panel
-
 
 bl_info = {
     "name": "colmod_01",
@@ -16,7 +15,7 @@ bl_info = {
     "warning": "",
     "wiki_url": "",
     "category": "Object",
-    }
+}
 
 class VIEW3D_PT_colmod_object_colmod(Panel):
     bl_space_type = 'VIEW_3D'
@@ -29,25 +28,20 @@ class VIEW3D_PT_colmod_object_colmod(Panel):
         FloatProperty = layout.prop(context.scene, "decimate_ratio")
         layout.separator()
         layout.operator(MassHullModifierOperator.bl_idname, text="Create Mass Hull")
-        #layout.operator(IndividualHullModifierOperator.bl_idname, text="Create Individual Hulls")
-        #layout.operator(BoxModifierOperator.bl_idname, text="Create Box Collision")
+        layout.operator(IndividualHullModifierOperator.bl_idname, text="Create Individual Hulls")
+        layout.operator(BoundingBoxModifierOperator.bl_idname, text="Create Box Collision")
 
-
-classes = (MassHullModifierOperator, VIEW3D_PT_colmod_object_colmod)
-#classes = (IndividualHullModifierOperator, VIEW3D_PT_colmod_object_colmod)
-#classes = (BoxModifierOperator, VIEW3D_PT_colmod_object_colmod)
+classes = (MassHullModifierOperator, IndividualHullModifierOperator, BoundingBoxModifierOperator, VIEW3D_PT_colmod_object_colmod)
 
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
-    bpy.types.Scene.decimate_ratio = bpy.props.FloatProperty(name="Decimation Ratio", default=0.5, min=0.1, max=0.9)
+    bpy.types.Scene.decimate_ratio = bpy.props.FloatProperty(name="Decimation Ratio", default=0.5, min=0.01, max=1.0)
 
 def unregister():
     for cls in classes:
         bpy.utils.unregister_class(cls)
     del bpy.types.Scene.decimate_ratio
 
-
-
 if __name__ == "__main__":
-   register()
+    register()
