@@ -90,7 +90,7 @@ class BoundingBoxModifierOperator(bpy.types.Operator):
             # Restore original selection state
             bpy.ops.object.select_all(action='DESELECT')
             for obj in original_objects:
-                if obj in bpy.data.objects:
+                if obj.name in bpy.data.objects:
                     obj.select_set(True)
             
             # Restore mode
